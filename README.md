@@ -172,31 +172,55 @@ change.md
     - [指定切片容量](#指定切片容量)
 - [规范](#规范)
   - [避免过长的行](#避免过长的行)
+    - [可用linter](#可用linter)
   - [一致性](#一致性)
   - [相似的声明放在一组](#相似的声明放在一组)
+    - [可用linter](#可用linter-1)
+    - [可用linter](#可用linter-2)
+    - [无可用linter](#无可用linter)
+    - [可以去掉，目前大多数代码并没有这么做，uber/zap的源码很多地方也没有这么做](#可以去掉目前大多数代码并没有这么做uberzap的源码很多地方也没有这么做)
   - [import 分组](#import-分组)
+    - [可用linter](#可用linter-3)
   - [包名](#包名)
+    - [无可用linter](#无可用linter-1)
   - [函数名](#函数名)
+    - [无可用linter](#无可用linter-2)
   - [导入别名](#导入别名)
+    - [部分可用linter](#部分可用linter)
   - [函数分组与顺序](#函数分组与顺序)
+    - [部分可用linter](#部分可用linter-1)
   - [减少嵌套](#减少嵌套)
+    - [可用linter](#可用linter-4)
   - [不必要的 else](#不必要的-else)
+    - [可用linter](#可用linter-5)
   - [顶层变量声明](#顶层变量声明)
-  - [对于未导出的顶层常量和变量，使用_作为前缀](#对于未导出的顶层常量和变量使用_作为前缀)
+    - [无可用linter](#无可用linter-3)
+  - [对于未导出的顶层常量和变量，使用\_作为前缀](#对于未导出的顶层常量和变量使用_作为前缀)
+    - [无可用linter](#无可用linter-4)
   - [结构体中的嵌入](#结构体中的嵌入)
+    - [无可用linter](#无可用linter-5)
   - [本地变量声明](#本地变量声明)
+    - [可用linter](#可用linter-6)
   - [nil 是一个有效的 slice](#nil-是一个有效的-slice)
   - [缩小变量作用域](#缩小变量作用域)
+    - [无可用linter](#无可用linter-6)
   - [避免参数语义不明确 (Avoid Naked Parameters)](#避免参数语义不明确-avoid-naked-parameters)
+    - [无可用linter](#无可用linter-7)
   - [使用原始字符串字面值，避免转义](#使用原始字符串字面值避免转义)
+    - [无可用linter](#无可用linter-8)
   - [初始化结构体](#初始化结构体)
     - [使用字段名初始化结构](#使用字段名初始化结构)
+      - [无可用linter](#无可用linter-9)
     - [省略结构中的零值字段](#省略结构中的零值字段)
+      - [无可用linter](#无可用linter-10)
     - [对零值结构使用 `var`](#对零值结构使用-var)
     - [初始化 Struct 引用](#初始化-struct-引用)
+      - [无可用linter](#无可用linter-11)
   - [初始化 Maps](#初始化-maps)
+    - [无可用linter](#无可用linter-12)
   - [字符串 string format](#字符串-string-format)
   - [命名 Printf 样式的函数](#命名-printf-样式的函数)
+    - [可用linter](#可用linter-7)
 - [编程模式](#编程模式)
   - [表驱动测试](#表驱动测试)
   - [功能选项](#功能选项)
@@ -2261,6 +2285,8 @@ BenchmarkGood-4   100000000    0.21s
 作者应该在达到这个限制之前换行，
 但这不是硬性限制。
 允许代码超过此限制。
+#### 可用linter
+`lll`，默认长度120
 ### 一致性
 
 本文中概述的一些标准都是客观性的评估，是根据场景、上下文、或者主观性的判断；
@@ -2286,6 +2312,8 @@ Go 语言支持将相似的声明放在一个组内。
 import "a"
 import "b"
 ```
+#### 可用linter
+`goimports`
 
 </td><td>
 
@@ -2340,6 +2368,9 @@ type (
 </td></tr>
 </tbody></table>
 
+#### 可用linter
+`grouper`
+
 仅将相关的声明放在一组。不要将不相关的声明放在一组。
 
 <table>
@@ -2374,6 +2405,8 @@ const EnvVar = "MY_ENV"
 
 </td></tr>
 </tbody></table>
+
+#### 无可用linter
 
 分组使用的位置没有限制，例如：你可以在函数内部使用它们：
 
@@ -2443,6 +2476,8 @@ func (c *client) request() {
 </td></tr>
 </tbody></table>
 
+#### 可以去掉，目前大多数代码并没有这么做，uber/zap的源码很多地方也没有这么做
+
 ### import 分组
 
 导入应该分为两组：
@@ -2481,6 +2516,9 @@ import (
 </td></tr>
 </tbody></table>
 
+#### 可用linter
+`goimports`
+
 ### 包名
 
 当命名包时，请按下面规则选择一个名称：
@@ -2496,11 +2534,15 @@ import (
 [Go 包命名规则]: https://blog.golang.org/package-names
 [Go 包样式指南]: https://rakyll.org/style-packages/
 
+#### 无可用linter
+
 ### 函数名
 
 我们遵循 Go 社区关于使用 [MixedCaps 作为函数名] 的约定。有一个例外，为了对相关的测试用例进行分组，函数名可能包含下划线，如：`TestMyFunction_WhatIsBeingTested`.
 
 [MixedCaps 作为函数名]: https://golang.org/doc/effective_go.html#mixed-caps
+
+#### 无可用linter
 
 ### 导入别名
 
@@ -2545,6 +2587,9 @@ import (
 
 </td></tr>
 </tbody></table>
+
+#### 部分可用linter
+`importas`： 强制别名的名称
 
 ### 函数分组与顺序
 
@@ -2599,6 +2644,9 @@ func calcCost(n []int) int {...}
 </td></tr>
 </tbody></table>
 
+#### 部分可用linter
+`decorder`: 强制const,var,type,func,init函数的声明顺序，无法区分函数和方法的顺序。
+
 ### 减少嵌套
 
 代码应通过尽可能先处理错误情况/特殊情况并尽早返回或继续循环来减少嵌套。减少嵌套多个级别的代码的代码量。
@@ -2643,6 +2691,10 @@ for _, v := range data {
 </td></tr>
 </tbody></table>
 
+#### 可用linter
+1. `nestif`: 防止if嵌套程度过深
+2. `ifshort`：检测if语句是否可以使用较短的声明
+
 ### 不必要的 else
 
 如果在 if 的两个分支中都设置了变量，则可以将其替换为单个 if。
@@ -2673,6 +2725,9 @@ if b {
 </td></tr>
 </tbody></table>
 
+#### 可用linter
+1. `gosimple`: 检测代码是否可以被简化
+
 ### 顶层变量声明
 
 在顶层，使用标准`var`关键字。请勿指定类型，除非它与表达式的类型不同。
@@ -2700,6 +2755,8 @@ func F() string { return "A" }
 
 </td></tr>
 </tbody></table>
+
+#### 无可用linter
 
 如果表达式的类型与所需的类型不完全匹配，请指定类型。
 
@@ -2760,6 +2817,8 @@ const (
 </tbody></table>
 
 **例外**：未导出的错误值可以使用不带下划线的前缀 `err`。 参见[错误命名](#错误命名)。
+
+#### 无可用linter
 
 ### 结构体中的嵌入
 
@@ -2901,6 +2960,8 @@ type Client struct {
 </td></tr>
 </tbody></table>
 
+#### 无可用linter
+
 ### 本地变量声明
 
 如果将变量明确设置为某个值，则应使用短变量声明形式 (`:=`)。
@@ -2958,6 +3019,9 @@ func f(list []int) {
 
 </td></tr>
 </tbody></table>
+
+#### 可用linter
+???
 
 ### nil 是一个有效的 slice
 
@@ -3117,6 +3181,8 @@ return nil
 </td></tr>
 </tbody></table>
 
+#### 无可用linter
+
 ### 避免参数语义不明确 (Avoid Naked Parameters)
 
 函数调用中的`意义不明确的参数`可能会损害可读性。当参数名称的含义不明显时，请为参数添加 C 样式注释 (`/* ... */`)
@@ -3164,11 +3230,15 @@ const (
 func printInfo(name string, region Region, status Status)
 ```
 
+#### 无可用linter
+
 ### 使用原始字符串字面值，避免转义
 
 Go 支持使用 [原始字符串字面值](https://golang.org/ref/spec#raw_string_lit)，也就是 " ` " 来表示原生字符串，在需要转义的场景下，我们应该尽量使用这种方案来替换。
 
 可以跨越多行并包含引号。使用这些字符串可以避免更难阅读的手工转义的字符串。
+
+#### 无可用linter
 
 <table>
 <thead><tr><th>Bad</th><th>Good</th></tr></thead>
@@ -3229,6 +3299,8 @@ tests := []struct{
   {Subtract, "subtract"},
 }
 ```
+##### 无可用linter
+
 #### 省略结构中的零值字段
 
 初始化具有字段名的结构时，除非提供有意义的上下文，否则忽略值为零的字段。
@@ -3273,6 +3345,8 @@ tests := []struct{
   // ...
 }
 ```
+##### 无可用linter
+
 #### 对零值结构使用 `var`
 
 如果在声明中省略了结构的所有字段，请使用 `var` 声明结构。
@@ -3325,6 +3399,7 @@ sptr := &T{Name: "bar"}
 
 </td></tr>
 </tbody></table>
+##### 无可用linter
 
 ### 初始化 Maps
 
@@ -3401,6 +3476,8 @@ m := map[T1]T2{
 
 基本准则是：在初始化时使用 map 初始化列表 来添加一组固定的元素。否则使用 `make` (如果可以，请尽量指定 map 容量)。
 
+#### 无可用linter
+
 ### 字符串 string format
 
 如果你在函数外声明`Printf`-style 函数的格式字符串，请将其设置为`const`常量。
@@ -3444,6 +3521,10 @@ $ go vet -printfuncs=wrapf,statusf
 另请参阅 [go vet: Printf family check].
 
 [go vet: Printf family check]: https://kuzminva.wordpress.com/2017/11/07/go-vet-printf-family-check/
+
+#### 可用linter
+1. `goprintffuncname`
+2. `go vet -printfuncs=wrapf,statusf`
 
 ## 编程模式
 
